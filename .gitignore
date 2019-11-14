@@ -1,0 +1,89 @@
+# See http://help.github.com/ignore-files/ for more about ignoring files.
+
+# compiled output
+/tmp
+/out-tsc
+
+# dependencies
+/node_modules
+package-lock.json
+
+# IDEs and editors
+/.idea
+.project
+.classpath
+.history
+.c9/
+*.launch
+.settings/
+*.sublime-workspace
+
+# IDE - VSCode
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+
+# misc
+/.sass-cache
+/connect.lock
+/coverage
+/libpeerconnection.log
+npm-debug.log
+testem.log
+/typings
+
+# e2e
+/e2e/*.js
+/e2e/*.map
+
+# System Files
+.DS_Store
+Thumbs.db
+
+
+# Created by https://www.gitignore.io/api/angular,firebase
+# Edit at https://www.gitignore.io/?templates=angular,firebase
+
+### Angular ###
+## Angular ##
+# compiled output
+dist/**
+tmp/**
+app/**/*.js
+app/**/*.js.map
+
+# dependencies
+node_modules/
+bower_components/
+
+# IDEs and editors
+.idea/
+
+# misc
+.sass-cache/
+connect.lock/
+coverage/
+libpeerconnection.log/
+npm-debug.log
+testem.log
+typings/
+
+# e2e
+e2e/*.js
+e2e/*.map
+
+#System Files
+.DS_Store/
+
+### Firebase ###
+.idea
+**/node_modules/*
+**/.firebaserc
+
+### Firebase Patch ###
+.runtimeconfig.json
+.firebase/
+
+# End of https://www.gitignore.io/api/angular,firebase

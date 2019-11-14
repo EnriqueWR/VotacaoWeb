@@ -1,0 +1,83 @@
+<div class="mb-20" class="box-header" fxLayout="row wrap" fxFlex="100%" fxLayoutAlign="space-between">
+    <div>
+        <h2 class="m-0">Device 01</h2>
+    </div>
+    <!-- <div>
+        <span style="padding-right: 10px"> Status </span>
+        <mat-slide-toggle color="warn" [(ngModel)]="device1"></mat-slide-toggle>
+    </div> -->
+    <hr fxFlex="100%">
+    <div class="hack"></div>
+</div>
+
+<table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+
+  <!--- Note that these columns can be defined in any order.
+        The actual rendered columns are set as a property on the row definition" -->
+
+  <!-- Position Column -->
+  <ng-container matColumnDef="position">
+    <th mat-header-cell *matHeaderCellDef> No. </th>
+    <td mat-cell *matCellDef="let element"> {{element.position}} </td>
+  </ng-container>
+
+  <!-- Name Column -->
+  <ng-container matColumnDef="name">
+    <th mat-header-cell *matHeaderCellDef> Name </th>
+    <td mat-cell *matCellDef="let element"> {{element.name}} </td>
+  </ng-container>
+
+  <!-- Weight Column -->
+  <ng-container matColumnDef="weight">
+    <th mat-header-cell *matHeaderCellDef> Weight </th>
+    <td mat-cell *matCellDef="let element"> {{element.weight}} </td>
+  </ng-container>
+
+  <!-- Symbol Column -->
+  <ng-container matColumnDef="symbol">
+    <th mat-header-cell *matHeaderCellDef> Symbol </th>
+    <td mat-cell *matCellDef="let element"> {{element.symbol}} </td>
+  </ng-container>
+
+  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+  <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+</table>
+
+<!-- <div class="mb-20" fxLayout="row warp" fxFlex fxLayoutGap="20px">
+    <div fxFlex="calc(33.33333% - 20)">
+        <app-stat [bgClass]="'success'" [icon]="'volume_up'" [count]="amplitudeSom + ' dB'" [label]="'Som'"></app-stat>
+    </div>
+    <div fxFlex="calc(33.33333% - 20)">
+        <app-stat [bgClass]="'warn'" [icon]="'wb_incandescent'" [count]="nivelLuminosidade + ' lums'" [label]="'Luz'"></app-stat>
+    </div>
+    <div fxFlex="calc(33.33333% - 20)">
+        <app-stat [bgClass]="'marrom'" [icon]="'grain'" [count]="nivelPoeira + '%'" [label]="'Poeira'"></app-stat>
+    </div>
+</div>
+<div class="mb-20" fxLayout="row warp" fxFlex fxLayoutGap="20px">
+    <div fxFlex="calc(33.33333% - 20)">
+        <app-stat [bgClass]="'vermelho'" [icon]="'ac_unit'" [count]="temperaturaAr + ' °C'" [label]="'Temperatura'"></app-stat>
+    </div>
+    <div fxFlex="calc(33.33333% - 20)">
+        <app-stat [bgClass]="'info'" [icon]="'wb_cloudy'" [count]="humidadeAr + '%'" [label]="'Umidade'"></app-stat>
+    </div>
+</div>
+
+
+<div class="mb-20" class="box-header" fxLayout="row wrap" fxFlex="100%" fxLayoutAlign="space-between">
+    <div>
+        <h2 class="m-0">Device 02</h2>
+    </div>
+    <div>
+        <span style="padding-right: 10px"> Status </span>
+        <mat-slide-toggle color="warn" [(ngModel)]="device2"></mat-slide-toggle>
+    </div>
+    <hr fxFlex="100%">
+    <div class="hack"></div>
+</div>
+<div class="mb-20" fxLayout="row warp" fxFlex fxLayoutGap="20px">
+    <div class="pointer" fxFlex="calc(33.33333% - 20)" (click)="alterar()">
+        <app-stat [bgClass]="(statusLamp) ? 'warn' : 'cinza'" [icon]="'wb_incandescent'" [count]="statusLamp ? 'On' : 'Off'"
+                  [label]="'Luz'"></app-stat>
+    </div>
+</div> -->
