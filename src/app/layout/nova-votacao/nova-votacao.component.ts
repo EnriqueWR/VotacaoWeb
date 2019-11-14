@@ -34,10 +34,10 @@ export class NovaVotacaoComponent implements OnInit {
         this.form = this.formBuilder.group({
             nome: ['', [Validators.required, Validators.maxLength(25)]],
             corpo: ['', Validators.maxLength(300)],
-            link0: ['', Validators.maxLength(100)],
-            link1: ['', Validators.maxLength(100)],
-            item0: ['', [Validators.required, Validators.maxLength(100)]],
-            item1: ['', [Validators.required, Validators.maxLength(100)]],
+            link0: ['', Validators.maxLength(200)],
+            link1: ['', Validators.maxLength(200)],
+            item0: ['', [Validators.required, Validators.maxLength(60)]],
+            item1: ['', [Validators.required, Validators.maxLength(60)]],
         });
     }
 
@@ -57,8 +57,8 @@ export class NovaVotacaoComponent implements OnInit {
             return;
         }
 
-        this.form.addControl('item' + this.contador, new FormControl('', Validators.maxLength(100)));
-        this.form.addControl('link' + this.contador, new FormControl('', Validators.maxLength(100)));
+        this.form.addControl('item' + this.contador, new FormControl('', Validators.maxLength(60)));
+        this.form.addControl('link' + this.contador, new FormControl('', Validators.maxLength(200)));
         this.alternativas.push(this.contador);
         this.contador++;
     }
@@ -116,7 +116,7 @@ export class NovaVotacaoComponent implements OnInit {
         objetao[ConstantesBanco.PATH_VOTACOES_USERS + this.loggedUser.uid + '/' + objetaoKey] = true;
 
         this.omniService.insertObjetao(objetao).then(resp => {
-            console.log('resp', resp);
+            //console.log('resp', resp);
             this.route.navigate(['/minhas-votacoes/']);
             alert('Votação cadastrada com sucesso!');
         }).catch(err => {

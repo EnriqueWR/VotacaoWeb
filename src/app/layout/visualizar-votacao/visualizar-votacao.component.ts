@@ -22,6 +22,7 @@ export class VisualizarVotacaoComponent implements OnInit {
     votacao: VotacaoModel;
     enviandoRespostaFlag: boolean;
     uploadingFlag: boolean;
+    deleteFlag: boolean;
 
     constructor(
             private formBuilder: FormBuilder,
@@ -41,11 +42,14 @@ export class VisualizarVotacaoComponent implements OnInit {
 
         this.omniService.getFireObject(VotacaoModel, this.votacaoId).subscribe(votacao => {
             if (!votacao || !votacao.key) {
+                if (this.deleteFlag) {
+                    return;
+                }
                 this.route.navigate(['/dashboard/']);
                 alert('Votação não encontrada.');
             }
             this.votacao = votacao;
-            console.log('votacao', votacao);
+            //console.log('votacao', votacao);
         });
     }
 
@@ -122,6 +126,7 @@ export class VisualizarVotacaoComponent implements OnInit {
 
     deletarVotacao() {
         this.uploadingFlag = true;
+        this.deleteFlag = true;
         const objetao = {};
         const objetaoKey = this.votacaoId;
 
@@ -133,6 +138,7 @@ export class VisualizarVotacaoComponent implements OnInit {
             this.route.navigate(['/minhas-votacoes/']);
             alert('Votação deletada com sucesso!');
         }).catch(err => {
+            this.deleteFlag = false;
             console.error(err);
             alert('Erro ao deletar votação.');
         }).finally(() => {
