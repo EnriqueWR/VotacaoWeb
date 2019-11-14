@@ -8,6 +8,7 @@ import { map, switchMap, take } from 'rxjs/operators';
 import { VotacaoModel } from 'src/app/shared/models/votacao-model';
 import { combineLatest, Subscriber, Observable } from 'rxjs';
 import { ConstantesBanco } from 'src/app/shared/constantes/constantes-banco';
+import { UsuarioLogadoService } from 'src/app/shared/services/usuario-logado.service';
 
 @Component({
     selector: 'app-minhas-votacoes',
@@ -24,12 +25,16 @@ export class MinhasVotacoesComponent implements OnInit {
         [key: string]: VotacaoModel
     } = {};
 
-    constructor(private db: AngularFireDatabase, private omniService: OmniFireService, private route: Router) {}
+    constructor(private db: AngularFireDatabase, private omniService: OmniFireService, private route: Router,
+        private usuarioLogadoService: UsuarioLogadoService,
+        ) {}
 
     ngOnInit() {
-        this.omniService.getFireListChildKey('/votacoesUsers/', '123').pipe(take(1)).subscribe(resp => {
-            console.log(resp);
-            this.lista = resp;
+        this.usuarioLogadoService.getLoggedUser().pipe(take(1)).subscribe(user => {
+            this.omniService.getFireListChildKey('/votacoesUsers/', user.uid).pipe(take(1)).subscribe(resp => {
+                console.log(resp);
+                this.lista = resp;
+            });
         });
     }
 

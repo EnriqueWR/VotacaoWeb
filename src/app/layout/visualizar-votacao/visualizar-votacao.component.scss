@@ -29,7 +29,7 @@
 
   .bt-download {
     width: 100%;
-    background-color: #4CAF50;
+    background-color: rgb(253, 0, 0);
     color: white;
     padding: 14px 20px;
     margin: 8px 0;
@@ -38,7 +38,7 @@
     font-size: large;
     cursor: pointer;
     &:hover {
-        background-color: #45a049;
+        background-color: rgb(172, 16, 16);
       }
     &:disabled {
         background-color: rgba(0, 0, 0, .2);

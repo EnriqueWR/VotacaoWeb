@@ -19,10 +19,18 @@
             <h3>Alternativas</h3>
             <li *ngFor="let item of votacao.alternativas; let i = index">
                 {{item}}
-                <button *ngIf="!jaVotou()" [disabled]="enviandoRespostaFlag" (click)="votar(i)">Votar</button>
-                <ng-container *ngIf="jaVotou()"> - {{votacao.respostas[i]}} ({{porcentagem(votacao.respostas[i])}}%)</ng-container>
+                <button *ngIf="votacao.abertaFlag && !jaVotou()" [disabled]="enviandoRespostaFlag" (click)="votar(i)">Votar</button>
+                <ng-container *ngIf="!votacao.abertaFlag || jaVotou()"> - {{votacao.respostas[i]}} ({{porcentagem(votacao.respostas[i])}})</ng-container>
             </li>
         </div>
+        <button
+            class="bt-download fadeIn"
+            *ngIf="votacao.abertaFlag && (votacao.userId === loggedUser.uid)"
+            (click)="finalizarVotacao()"
+            [disabled]="uploadingFlag"
+        >
+            Finalizar Votação
+        </button>
     </div>
 </div>
 

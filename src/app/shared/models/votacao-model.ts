@@ -14,6 +14,7 @@ export class VotacaoModel extends FirebaseObject {
     listaUsuarios: {
         [userId: string]: boolean;
     };
+    abertaFlag: boolean;
 
     constructor(obj?: {}) {
         super(obj);

@@ -7,6 +7,7 @@ import { Router } from '@angular/router';
 import { UsuarioLogadoService } from 'src/app/shared/services/usuario-logado.service';
 import * as moment from 'moment';
 import { User } from 'firebase';
+import { ConstantesBanco } from 'src/app/shared/constantes/constantes-banco';
 @Component({
   selector: 'app-nova-votacao',
   templateUrl: './nova-votacao.component.html',
@@ -82,6 +83,7 @@ export class NovaVotacaoComponent implements OnInit {
         const newVotacao = new VotacaoModel();
         newVotacao.nome = this.form.get('nome').value;
         newVotacao.corpo = this.form.get('corpo').value;
+        newVotacao.abertaFlag = true;
         newVotacao.alternativas = this.alternativas.map(index => this.form.get('item' + index).value).filter(texto => !!texto);
         newVotacao.respostas = {};
         for (let i = 0; i < newVotacao.alternativas.length; i++) {
@@ -97,9 +99,10 @@ export class NovaVotacaoComponent implements OnInit {
 
         objetao[newVotacao._firebase_path + objetaoKey] = newVotacao.serialize();
         objetao[newVotacaoList._firebase_path + objetaoKey] = newVotacaoList.serialize();
+        objetao[ConstantesBanco.PATH_VOTACOES_USERS + this.loggedUser.uid + '/' + objetaoKey] = true;
 
         this.omniService.insertObjetao(objetao).then(resp => {
-            this.route.navigate(['/dashboard/']);
+            this.route.navigate(['/minhas-votacoes/']);
             alert('Votação cadastrada com sucesso!');
         }).catch(err => {
             console.error(err);

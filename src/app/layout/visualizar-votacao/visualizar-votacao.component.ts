@@ -9,6 +9,7 @@ import * as moment from 'moment';
 import { User } from 'firebase';
 import { AngularFireDatabase } from '@angular/fire/database';
 import * as _ from 'lodash';
+import { ConstantesBanco } from 'src/app/shared/constantes/constantes-banco';
 
 @Component({
   selector: 'app-visualizar-votacao',
@@ -20,6 +21,7 @@ export class VisualizarVotacaoComponent implements OnInit {
     votacaoId: string;
     votacao: VotacaoModel;
     enviandoRespostaFlag: boolean;
+    uploadingFlag: boolean;
 
     constructor(
             private formBuilder: FormBuilder,
@@ -56,7 +58,7 @@ export class VisualizarVotacaoComponent implements OnInit {
             return 'Sem votos';
         }
 
-        return ((votos / sum) * 100).toFixed(2);
+        return ((votos / sum) * 100).toFixed(2) + '%';
     }
 
     votar(index: number) {
@@ -65,15 +67,21 @@ export class VisualizarVotacaoComponent implements OnInit {
 
         this.enviandoRespostaFlag = true;
         this.db.database.ref(path).transaction(function(currentValue) {
-            if (currentValue['listaUsuarios']) {
-                if (currentValue['listaUsuarios'][userUid]) {
-                    alert('Já votou');
+            const resp = (currentValue as VotacaoModel);
+
+            if (!resp.abertaFlag) {
+                alert('Votação encerrada!');
+                return;
+            }
+            if (resp.listaUsuarios) {
+                if (resp.listaUsuarios[userUid]) {
+                    alert('Só é permitido um voto por pessoa.');
                     return;
                 }
             }
-            const resp = (currentValue as VotacaoModel);
-            if (!resp['listaUsuarios']) {
-                resp['listaUsuarios'] = {};
+
+            if (!resp.listaUsuarios) {
+                resp.listaUsuarios = {};
             }
             resp.listaUsuarios[userUid] = true;
             resp.respostas[index]++;
@@ -85,6 +93,30 @@ export class VisualizarVotacaoComponent implements OnInit {
         }).finally(() => {
             this.enviandoRespostaFlag = false;
         });
+    }
+
+    finalizarVotacao() {
+        this.uploadingFlag = true;
+        const objetao = {};
+        const objetaoKey = this.votacaoId;
+
+        this.votacao.abertaFlag = false;
+
+        objetao[ConstantesBanco.PATH_VOTACOES + objetaoKey] = this.votacao.serialize();
+        objetao[ConstantesBanco.PATH_VOTACOES_ABERTAS + objetaoKey] = null;
+
+        this.omniService.insertObjetao(objetao).then(resp => {
+            alert('Votação encerrada com sucesso!');
+        }).catch(err => {
+            console.error(err);
+            alert('Erro ao encerrar votação.');
+        }).finally(() => {
+            this.uploadingFlag = false;
+        });
+
+
+
+
     }
 
 }
