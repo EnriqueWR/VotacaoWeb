@@ -9,12 +9,25 @@ const routes: Routes = [
         component: LayoutComponent,
         children: [
             {
-                path: '',
-                redirectTo: 'dashboard'
+               path: '',
+               redirectTo: 'dashboard',
+               pathMatch: 'full'
             },
             {
                 path: 'dashboard',
-                loadChildren: './dashboard/dashboard.module#DashboardModule'
+                loadChildren: () => import('./dashboard/dashboard.module').then(m => m.DashboardModule),
+            },
+            {
+                path: 'nova-votacao',
+                loadChildren: () => import('./nova-votacao/nova-votacao.module').then(m => m.NovaVotacaoModule)
+            },
+            {
+                path: 'visualizar-votacao',
+                loadChildren: () => import('./visualizar-votacao/visualizar-votacao.module').then(m => m.VisualizarVotacaoModule)
+            },
+            {
+                path: 'minhas-votacoes',
+                loadChildren: () => import('./minhas-votacoes/minhas-votacoes.module').then(m => m.MinhasVotacoesModule)
             }
         ]
     }

@@ -1,28 +1,9 @@
 import {Component, OnInit} from '@angular/core';
 import {MatTableDataSource} from '@angular/material';
 import {AngularFireDatabase} from '@angular/fire/database';
-
-
-export interface PeriodicElement {
-  name: string;
-  position: number;
-  weight: number;
-  symbol: string;
-}
-
-let ELEMENT_DATA: PeriodicElement[] = [
-//   {position: 1, name: 'Hydrogen', weight: 1.0079, symbol: 'H'},
-//   {position: 2, name: 'Helium', weight: 4.0026, symbol: 'He'},
-//   {position: 3, name: 'Lithium', weight: 6.941, symbol: 'Li'},
-//   {position: 4, name: 'Beryllium', weight: 9.0122, symbol: 'Be'},
-//   {position: 5, name: 'Boron', weight: 10.811, symbol: 'B'},
-//   {position: 6, name: 'Carbon', weight: 12.0107, symbol: 'C'},
-//   {position: 7, name: 'Nitrogen', weight: 14.0067, symbol: 'N'},
-//   {position: 8, name: 'Oxygen', weight: 15.9994, symbol: 'O'},
-//   {position: 9, name: 'Fluorine', weight: 18.9984, symbol: 'F'},
-//   {position: 10, name: 'Neon', weight: 20.1797, symbol: 'Ne'},
-];
-
+import { OmniFireService } from 'src/app/shared/services/omni-fire.service';
+import { VotacaoListModel } from 'src/app/shared/models/votacao-list-model';
+import { Router } from '@angular/router';
 
 @Component({
     selector: 'app-dashboard',
@@ -30,44 +11,19 @@ let ELEMENT_DATA: PeriodicElement[] = [
     styleUrls: ['./dashboard.component.scss']
 })
 export class DashboardComponent implements OnInit {
+    displayedColumns: string[] = ['nome', 'userName', 'acao'];
+    dataSource: MatTableDataSource<VotacaoListModel>;
 
-    /**
-     * Status do dispositivo
-     */
-    device1 = false;
-    device2 = false;
-
-    /**
-     * Sensores
-     */
-    amplitudeSom = 0;
-    nivelLuminosidade = 0;
-    nivelPoeira = 0;
-    temperaturaAr = 0;
-    humidadeAr = 0;
-
-    /**
-     * Atuadores
-     */
-    statusLamp = false;
-
-    displayedColumns: string[] = ['position', 'name', 'weight', 'symbol'];
-    dataSource = null;
-
-    constructor(private dbService: AngularFireDatabase) {
-        this.dbService.object('teste')
-            .snapshotChanges()
-            .subscribe(dados => {
-                console.log('teste', dados.payload.val());
-                this.dataSource = new MatTableDataSource(dados.payload.val() as any);
-            });
-    }
+    constructor(private omniService: OmniFireService, private route: Router) {}
 
     ngOnInit() {
+        this.omniService.getFireList(VotacaoListModel).subscribe(dados => {
+            console.log('dadosList', dados);
+            this.dataSource = new MatTableDataSource(dados);
+        });
     }
 
-    alterar() {
-        this.statusLamp = !this.statusLamp;
-        // this.device2 = !this.device2;
+    irParaVotacao(id: string): void {
+        this.route.navigate(['/visualizar-votacao/' + id]);
     }
 }

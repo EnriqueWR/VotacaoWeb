@@ -2,19 +2,15 @@
     <mat-nav-list>
         <a mat-list-item [routerLinkActive]="'active'" [routerLink]="['/dashboard']">
             <mat-icon class="sidenav-icon">dashboard</mat-icon>
-            {{ 'Dashboard' | translate }}
+            {{ 'Votações em aberto' | translate }}
         </a>
-<!--        <a mat-list-item [routerLinkActive]="'active'" [routerLink]="['/login']">-->
-<!--            <mat-icon class="sidenav-icon">dashboard</mat-icon>-->
-<!--            {{ 'Login' }}-->
-<!--        </a>-->
-<!--        <a mat-list-item [routerLinkActive]="'active'" [routerLink]="['/cadastrar']">-->
-<!--            <mat-icon class="sidenav-icon">dashboard</mat-icon>-->
-<!--            {{ 'Cadastrar' }}-->
-<!--        </a>-->
-<!--        <a mat-list-item [routerLinkActive]="'active'" [routerLink]="['/resetar-senha']">-->
-<!--            <mat-icon class="sidenav-icon">dashboard</mat-icon>-->
-<!--            {{ 'Resetar Senha' }}-->
-<!--        </a>-->
+        <a mat-list-item [routerLinkActive]="'active'" [routerLink]="['/nova-votacao']">
+            <mat-icon class="sidenav-icon">dashboard</mat-icon>
+            {{ 'Nova Votação' | translate }}
+        </a>
+        <a mat-list-item [routerLinkActive]="'active'" [routerLink]="['/minhas-votacoes']">
+            <mat-icon class="sidenav-icon">dashboard</mat-icon>
+            {{ 'Minhas votações' | translate }}
+        </a>
     </mat-nav-list>
 </div>

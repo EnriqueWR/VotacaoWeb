@@ -1,0 +1,29 @@
+<ng-container *ngIf="!votacao || !loggedUser; else showVotacao">
+    <h2>Carregando dados...</h2>
+</ng-container>
+
+<ng-template #showVotacao>
+
+<div class="mb-20" class="box-header" fxLayout="row wrap" fxFlex="100%" fxLayoutAlign="space-between">
+  <div>
+      <h2 class="m-0">{{ votacao.nome }}</h2>
+  </div>
+  <hr fxFlex="100%">
+  <div class="hack"></div>
+</div>
+
+<div class="container">
+    <div class="coluna">
+        <div class="box-form">
+            <p *ngIf="votacao.corpo">{{votacao.corpo}}</p>
+            <h3>Alternativas</h3>
+            <li *ngFor="let item of votacao.alternativas; let i = index">
+                {{item}}
+                <button *ngIf="!jaVotou()" [disabled]="enviandoRespostaFlag" (click)="votar(i)">Votar</button>
+                <ng-container *ngIf="jaVotou()"> - {{votacao.respostas[i]}} ({{porcentagem(votacao.respostas[i])}}%)</ng-container>
+            </li>
+        </div>
+    </div>
+</div>
+
+</ng-template>

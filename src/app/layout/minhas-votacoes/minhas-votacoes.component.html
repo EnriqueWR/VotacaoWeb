@@ -1,6 +1,6 @@
 <div class="mb-20" class="box-header" fxLayout="row wrap" fxFlex="100%" fxLayoutAlign="space-between">
     <div>
-        <h2 class="m-0">Votações em aberto</h2>
+        <h2 class="m-0">Minhas votações</h2>
     </div>
     <!-- <div>
         <span style="padding-right: 10px"> Status </span>
@@ -8,6 +8,11 @@
     </div> -->
     <hr fxFlex="100%">
     <div class="hack"></div>
+</div>
+
+<div *ngFor="let key of lista; let i = index">
+    {{getDados(key, i)}}
+
 </div>
 
 <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">

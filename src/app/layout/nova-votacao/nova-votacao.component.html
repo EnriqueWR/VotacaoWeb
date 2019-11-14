@@ -1,0 +1,63 @@
+<div class="mb-20" class="box-header" fxLayout="row wrap" fxFlex="100%" fxLayoutAlign="space-between">
+  <div>
+      <h2 class="m-0">Nova votação</h2>
+  </div>
+  <hr fxFlex="100%">
+  <div class="hack"></div>
+</div>
+
+<div class="container">
+    <div class="coluna">
+        <form [formGroup]="form">
+            <div class="box-form">
+                <h3>Titulo</h3>
+                <div class="campo w-75">
+                    <mat-form-field>
+                        <input
+                            matInput
+                            placeholder="O titulo da votação"
+                            #idElementAprovador
+                            formControlName="nome"
+                            [readOnly]="uploadingFlag"
+                            required
+                        />
+                    </mat-form-field>
+                </div>
+            
+                <h3>Corpo da votação</h3>
+                <div class="campo w-100">
+                    <mat-form-field>
+                        <textarea matInput placeholder="Descreva em mais detalhes do que se trata a votação." [readOnly]="uploadingFlag" formControlName="corpo" [rows]="3"></textarea>
+                    </mat-form-field>
+                </div>
+
+                <h3>Alternativas</h3>
+                <ng-container *ngFor="let item of alternativas; let i = index">
+                    <div class="campo w-75">
+                        <mat-form-field>
+                                <input
+                                matInput
+                                placeholder="{{i + 1}}"
+                                #idElementAprovador
+                                formControlName="{{'item' + alternativas[i]}}"
+                                required="{{ i < 2}}"
+                                [readOnly]="uploadingFlag"
+                            />
+                        </mat-form-field>
+                        <input *ngIf="linkFlag" [readOnly]="uploadingFlag" placeholder="Link (opicional)"/>
+                        <button *ngIf="i >= 2" [disabled]="uploadingFlag" (click)="removerAlternativa(i)">Remover</button>
+                    </div>
+                </ng-container>
+                <button *ngIf="alternativas.length < 5" [disabled]="uploadingFlag" (click)="adicionarAlternativa()">Adicionar alternativa</button>
+            </div>
+
+        </form>
+        <button
+            class="bt-download fadeIn"
+            (click)="cadastrarVotacao()"
+            [disabled]="uploadingFlag"
+        >
+            Cadastrar Votação
+        </button>
+    </div>
+</div>
