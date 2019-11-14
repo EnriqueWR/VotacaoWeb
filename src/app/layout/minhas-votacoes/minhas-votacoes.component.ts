@@ -16,7 +16,7 @@ import { UsuarioLogadoService } from 'src/app/shared/services/usuario-logado.ser
     styleUrls: ['./minhas-votacoes.component.scss']
 })
 export class MinhasVotacoesComponent implements OnInit {
-    displayedColumns: string[] = ['nome', 'userName', 'acao'];
+    displayedColumns: string[] = ['nome', 'userName', 'status', 'total', 'acao'];
     dataSource: MatTableDataSource<VotacaoListModel>;
 
     lista: string[];
@@ -32,7 +32,6 @@ export class MinhasVotacoesComponent implements OnInit {
     ngOnInit() {
         this.usuarioLogadoService.getLoggedUser().pipe(take(1)).subscribe(user => {
             this.omniService.getFireListChildKey('/votacoesUsers/', user.uid).pipe(take(1)).subscribe(resp => {
-                console.log(resp);
                 this.lista = resp;
             });
         });
@@ -43,7 +42,6 @@ export class MinhasVotacoesComponent implements OnInit {
             return;
         }
         this.omniService.getFireObject(VotacaoModel, key).subscribe(resp => {
-            console.log(resp);
             this.dadosCarregar[index] = resp;
             if (Object.keys(this.dadosCarregar || []).length === this.lista.length) {
                 this.loadDados();
@@ -57,6 +55,14 @@ export class MinhasVotacoesComponent implements OnInit {
             resp.key = vot.key;
             resp.nome = vot.nome;
             resp.userName = vot.userName;
+            resp['status'] = vot.abertaFlag;
+
+            let sum = 0;
+            for (const val of Object.values(vot.respostas || [])) {
+                sum += val;
+            }
+            resp['total'] = sum;
+
             return resp;
         });
 

@@ -44,11 +44,19 @@
                                 [readOnly]="uploadingFlag"
                             />
                         </mat-form-field>
-                        <input *ngIf="linkFlag" [readOnly]="uploadingFlag" placeholder="Link (opicional)"/>
+                                <input
+                                matInput
+                                *ngIf="linkFlag"
+                                placeholder="Link (opicional)"
+                                #idElementAprovador
+                                formControlName="{{'link' + i}}"
+                                [readOnly]="uploadingFlag"
+                            />
                         <button *ngIf="i >= 2" [disabled]="uploadingFlag" (click)="removerAlternativa(i)">Remover</button>
                     </div>
                 </ng-container>
                 <button *ngIf="alternativas.length < 5" [disabled]="uploadingFlag" (click)="adicionarAlternativa()">Adicionar alternativa</button>
+                <button [disabled]="uploadingFlag" (click)="toogleLink()">{{linkFlag ? 'Sem links' : 'Incluir links?'}}</button>
             </div>
 
         </form>

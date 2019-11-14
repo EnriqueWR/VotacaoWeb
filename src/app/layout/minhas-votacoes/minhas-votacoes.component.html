@@ -25,10 +25,20 @@
     <td mat-cell *matCellDef="let element"> {{element.userName}} </td>
   </ng-container>
 
+  <ng-container matColumnDef="status">
+        <th mat-header-cell *matHeaderCellDef> Nome do Criador </th>
+        <td mat-cell *matCellDef="let element"> {{ element.status ? 'Aberta' : 'Finalizada' }} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="total">
+            <th mat-header-cell *matHeaderCellDef> Nome do Criador </th>
+            <td mat-cell *matCellDef="let element"> {{ element.total }} votos </td>
+          </ng-container>
+
   <ng-container matColumnDef="acao">
     <th mat-header-cell *matHeaderCellDef> Ação </th>
     <td mat-cell *matCellDef="let element">
-        <button mat-button (click)="irParaVotacao(element.key)">Votar</button>
+        <button mat-button (click)="irParaVotacao(element.key)">Visualizar</button>
     </td>
   </ng-container>
 

@@ -13,7 +13,7 @@ export class OmniFireService {
     constructor(private db: AngularFireDatabase) {}
 
     getFireList<T>(type: new (obj: { key: string; [key: string]: any }) => T): Observable<T[]> {
-        console.log(((<any>type) as FirebaseObject)._firebase_path);
+        // console.log(((<any>type) as FirebaseObject)._firebase_path);
         return this.db
             .list<[] | null>(((<any>type) as FirebaseObject)._firebase_path)
             .snapshotChanges()
@@ -43,7 +43,7 @@ export class OmniFireService {
     }
 
     insertFireObject(object: FirebaseObject): Promise<void | string> {
-        console.log(object._firebase_path + object.key, JSON.stringify(object.serialize(), null, 2));
+        // console.log(object._firebase_path + object.key, JSON.stringify(object.serialize(), null, 2));
         return new Promise((res, rej) => {
             if (object.key) {
                 this.db

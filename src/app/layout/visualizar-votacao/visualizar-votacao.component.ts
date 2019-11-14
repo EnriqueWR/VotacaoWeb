@@ -40,7 +40,12 @@ export class VisualizarVotacaoComponent implements OnInit {
         });
 
         this.omniService.getFireObject(VotacaoModel, this.votacaoId).subscribe(votacao => {
+            if (!votacao || !votacao.key) {
+                this.route.navigate(['/dashboard/']);
+                alert('Votação não encontrada.');
+            }
             this.votacao = votacao;
+            console.log('votacao', votacao);
         });
     }
 
@@ -113,10 +118,26 @@ export class VisualizarVotacaoComponent implements OnInit {
         }).finally(() => {
             this.uploadingFlag = false;
         });
+    }
 
+    deletarVotacao() {
+        this.uploadingFlag = true;
+        const objetao = {};
+        const objetaoKey = this.votacaoId;
 
+        objetao[ConstantesBanco.PATH_VOTACOES + objetaoKey] = null;
+        objetao[ConstantesBanco.PATH_VOTACOES_ABERTAS + objetaoKey] = null;
+        objetao[ConstantesBanco.PATH_VOTACOES_USERS + this.loggedUser.uid + '/' + objetaoKey] = null;
 
-
+        this.omniService.insertObjetao(objetao).then(resp => {
+            this.route.navigate(['/minhas-votacoes/']);
+            alert('Votação deletada com sucesso!');
+        }).catch(err => {
+            console.error(err);
+            alert('Erro ao deletar votação.');
+        }).finally(() => {
+            this.uploadingFlag = false;
+        });
     }
 
 }

@@ -8,6 +8,7 @@ export class VotacaoModel extends FirebaseObject {
     userId: string;
     corpo: string;
     alternativas: string[];
+    links: string[];
     respostas: {
         [index: number]: number;
     };

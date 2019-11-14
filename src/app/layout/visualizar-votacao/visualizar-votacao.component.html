@@ -18,7 +18,17 @@
             <p *ngIf="votacao.corpo">{{votacao.corpo}}</p>
             <h3>Alternativas</h3>
             <li *ngFor="let item of votacao.alternativas; let i = index">
-                {{item}}
+                    <ng-container *ngIf="votacao.links">
+                        <ng-container *ngIf="votacao.links[i]">
+                            <a [href]="votacao.links[i]" target="blank">{{item}}</a>
+                        </ng-container>
+                        <ng-container *ngIf="!votacao.links[i]">
+                            <a>{{item}}</a>
+                        </ng-container>
+                    </ng-container>
+                    <ng-container *ngIf="!votacao.links">
+                        <a>{{item}}</a>
+                    </ng-container>
                 <button *ngIf="votacao.abertaFlag && !jaVotou()" [disabled]="enviandoRespostaFlag" (click)="votar(i)">Votar</button>
                 <ng-container *ngIf="!votacao.abertaFlag || jaVotou()"> - {{votacao.respostas[i]}} ({{porcentagem(votacao.respostas[i])}})</ng-container>
             </li>
@@ -31,6 +41,15 @@
         >
             Finalizar Votação
         </button>
+        <button
+            class="bt-download fadeIn"
+            *ngIf="!votacao.abertaFlag && (votacao.userId === loggedUser.uid)"
+            (click)="deletarVotacao()"
+            [disabled]="uploadingFlag"
+        >
+            Deletar Votação
+        </button>
+        
     </div>
 </div>
 

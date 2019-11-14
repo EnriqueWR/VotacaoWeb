@@ -32,10 +32,12 @@ export class NovaVotacaoComponent implements OnInit {
         private route: Router,
         private usuarioLogadoService: UsuarioLogadoService) {
         this.form = this.formBuilder.group({
-            nome: ['', Validators.required],
-            corpo: [''],
-            item0: ['', Validators.required],
-            item1: ['', Validators.required],
+            nome: ['', [Validators.required, Validators.maxLength(25)]],
+            corpo: ['', Validators.maxLength(300)],
+            link0: ['', Validators.maxLength(100)],
+            link1: ['', Validators.maxLength(100)],
+            item0: ['', [Validators.required, Validators.maxLength(100)]],
+            item1: ['', [Validators.required, Validators.maxLength(100)]],
         });
     }
 
@@ -45,19 +47,25 @@ export class NovaVotacaoComponent implements OnInit {
         });
     }
 
+    toogleLink() {
+        this.linkFlag = !this.linkFlag;
+    }
+
     adicionarAlternativa(): void {
         if (this.alternativas.length >= this.limiteAlternativas) {
             alert('Você atingiu o limite de alternativas.');
             return;
         }
 
-        this.form.addControl('item' + this.contador, new FormControl(''));
+        this.form.addControl('item' + this.contador, new FormControl('', Validators.maxLength(100)));
+        this.form.addControl('link' + this.contador, new FormControl('', Validators.maxLength(100)));
         this.alternativas.push(this.contador);
         this.contador++;
     }
 
     removerAlternativa(index: number): void {
         this.form.removeControl('item' + this.alternativas[index]);
+        this.form.removeControl('link' + this.alternativas[index]);
         this.alternativas.splice(index, 1);
     }
 
@@ -85,10 +93,16 @@ export class NovaVotacaoComponent implements OnInit {
         newVotacao.corpo = this.form.get('corpo').value;
         newVotacao.abertaFlag = true;
         newVotacao.alternativas = this.alternativas.map(index => this.form.get('item' + index).value).filter(texto => !!texto);
+        newVotacao.links = this.linkFlag
+            ? this.alternativas.map(index => this.form.get('link' + index).value).filter(texto => !!texto)
+            : null;
         newVotacao.respostas = {};
         for (let i = 0; i < newVotacao.alternativas.length; i++) {
             newVotacao.respostas[i] = 0;
         }
+        newVotacao.listaUsuarios = {
+            [this.loggedUser.uid]: true
+        };
 
         newVotacao.userName = this.loggedUser.displayName;
         newVotacao.userId = this.loggedUser.uid;
@@ -102,6 +116,7 @@ export class NovaVotacaoComponent implements OnInit {
         objetao[ConstantesBanco.PATH_VOTACOES_USERS + this.loggedUser.uid + '/' + objetaoKey] = true;
 
         this.omniService.insertObjetao(objetao).then(resp => {
+            console.log('resp', resp);
             this.route.navigate(['/minhas-votacoes/']);
             alert('Votação cadastrada com sucesso!');
         }).catch(err => {

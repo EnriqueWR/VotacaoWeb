@@ -18,7 +18,6 @@ export class DashboardComponent implements OnInit {
 
     ngOnInit() {
         this.omniService.getFireList(VotacaoListModel).subscribe(dados => {
-            console.log('dadosList', dados);
             this.dataSource = new MatTableDataSource(dados);
         });
     }
